@@ -1,4 +1,4 @@
-package pre.project.server.dto;
+package pre.project.server.domain.answer.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +22,7 @@ public class AnswerResponseDto {
     private Question question;
 
 
-    /* Entity -> Dto */
+    /** Entity -> Dto */
     public AnswerResponseDto(Answer answer) {
         this.answerId = answer.getAnswerId();
         this.content = answer.getContent();

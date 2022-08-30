@@ -1,4 +1,4 @@
-package pre.project.server.dto;
+package pre.project.server.domain.answer.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,20 +14,22 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class AnswerRequestDto {
+
+    /*
     private Long answerId;
-    private String content;
-    private int recommendNum;
     private LocalDateTime regDate;
     private LocalDateTime editDate;
+    */
     private Question question;
+    private String content;
 
-    /* Dto -> Entity */
+    /** Dto -> Entity */
     public Answer toEntity() {
         Answer answer = Answer.builder()
-                .answerId(answerId)
+                //.answerId(answerId)
                 .content(content)
-                .regDate(regDate)
-                .editDate(editDate)
+                //.regDate(regDate)
+                //.editDate(editDate)
                 .question(question)
                 .build();
         return answer;

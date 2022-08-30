@@ -7,8 +7,8 @@ import pre.project.server.domain.answer.entity.Answer;
 import pre.project.server.domain.answer.repository.AnswerRepository;
 import pre.project.server.domain.question.entity.Question;
 import pre.project.server.domain.question.repository.QuestionRepository;
-import pre.project.server.dto.AnswerRequestDto;
-import pre.project.server.dto.AnswerResponseDto;
+import pre.project.server.domain.answer.dto.AnswerRequestDto;
+import pre.project.server.domain.answer.dto.AnswerResponseDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,41 +19,40 @@ public class AnswerServiceImpl implements AnswerService {
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
 
-    // CREATE
+    /** CREATE */
     @Transactional
-    public Long answerSave(Long id, AnswerRequestDto dto) {
-        Question question = questionRepository.findById(id).orElseThrow(() ->
+    public String answerSave(Long questionId, AnswerRequestDto dto) {
+        Question question = questionRepository.findById(questionId).orElseThrow(() ->
                 new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
         dto.setQuestion(question); // Question의 정보를 answer에 저장
-
         Answer answer = dto.toEntity();
-
-        return dto.getAnswerId();
+        answerRepository.save(answer);
+        return dto.getContent();
     }
 
-    // READ
+    /** READ */
     @Transactional(readOnly = true)
-    public List<AnswerResponseDto> findAll(Long id) {
-        Question question = questionRepository.findById(id).orElseThrow(() ->
+    public List<AnswerResponseDto> findAll(Long questionId) {
+        Question question = questionRepository.findById(questionId).orElseThrow(() ->
                 new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
         List<Answer> answers = question.getAnswers();
         return answers.stream().map(AnswerResponseDto::new).collect(Collectors.toList());
     }
 
-    /* UPDATE */
+    /** UPDATE */
     @Transactional
-    public void update(Long id, AnswerRequestDto dto) {
-        Answer answer = answerRepository.findById(id).orElseThrow(() ->
+    public void update(Long questionId, AnswerRequestDto dto) {
+        Answer answer = answerRepository.findById(questionId).orElseThrow(() ->
                 new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
 
 
     }
 
-    /* DELETE */
+    /** DELETE */
     @Transactional
-    public void delete(Long id) {
-        Answer answer = answerRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("해당 댓글이 존재하지 않습니다. id=" + id));
+    public void delete(Long questionId) {
+        Answer answer = answerRepository.findById(questionId).orElseThrow(() ->
+                new IllegalArgumentException("해당 댓글이 존재하지 않습니다. id"));
 
         answerRepository.delete(answer);
     }

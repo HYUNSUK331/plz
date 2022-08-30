@@ -27,12 +27,12 @@ public class Answer {
     @Column(name= "reg_date", nullable=false, updatable = false)
     @CreatedDate
     //private String regDate;
-    private LocalDateTime regDate=LocalDateTime.now();
+    private LocalDateTime regDate;
 
     @Column(name= "edit_date")
     @LastModifiedDate
     //private String editDate;
-    private LocalDateTime editDate=LocalDateTime.now();
+    private LocalDateTime editDate;
 
     private int recommendNum;
 
